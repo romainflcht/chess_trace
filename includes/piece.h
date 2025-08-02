@@ -3,6 +3,7 @@
 
 
 #include <stdint.h>
+#include <stdlib.h>
 
 #include "color.h"
 
@@ -26,5 +27,13 @@ typedef struct Piece
 }   PIECE_t; 
 
 // * _ FUNCTIONS DECLARATION ___________________________________________________
-void init_piece(PIECE_t* piece, COLOR_t color, PIECE_TYPE_t type); 
+
+/**
+ * @brief 
+ * Allocate memory for a PIECE_t structure. 
+ * 
+ * @param type  type of the piece, PAWN, ROOK...
+ * @param color color of the piece, either BLACK or WHITE.
+ */
+PIECE_t* create_piece(PIECE_TYPE_t type, COLOR_t color);
 #endif

@@ -19,6 +19,9 @@ void init_board(CHESSBOARD_t* board, uint8_t is_flipped)
     // Allocate memory for a pointer array (array that will contain pointer to 
     // SQUARE_t structure). 
     board->board = malloc(sizeof(SQUARE_t*) * CHESSBOARD_SIZE);
+    if (!board->board)
+        return; 
+
     offset = 0; 
     
     for (i = 0; i < CHESSBOARD_SIZE; i++)
@@ -26,7 +29,12 @@ void init_board(CHESSBOARD_t* board, uint8_t is_flipped)
         // Allocate memory for an array of SQUARE_t structure. 
         // This array will represent a row of the chessboard. 
         row = malloc(sizeof(SQUARE_t) * CHESSBOARD_SIZE); 
-    
+        if (!row)
+        {
+            free_board(board); 
+            return; 
+        }
+
         // Initialize each squre of the line with its color. 
         for (j = 0; j < CHESSBOARD_SIZE; j++)
             init_square(row + j, NULL, (j % 2 == offset) ? WHITE : BLACK); 
@@ -45,9 +53,25 @@ void init_board(CHESSBOARD_t* board, uint8_t is_flipped)
 
 /**
  * @brief 
+ * Free any CHESSBOARD_t variable.  
+ * 
+ * @param board the chessboard to free. 
+ */
+void free_board(CHESSBOARD_t* board)
+{
+    // TODO: free correcty the board in case of errors. 
+    if (!board)
+        return; 
+        
+    return; 
+}
+
+
+/**
+ * @brief 
  * Print the chessboard on the standard output. 
  * 
- * @param board 
+ * @param board the chessboard to print. 
  */
 void print_chessboard(CHESSBOARD_t* board)
 {
