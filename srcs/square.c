@@ -44,7 +44,10 @@ void print_square(SQUARE_t* square)
     }
     
     // Print the square. 
-    wprintf(L"\x1b[%d;%dm%lc \x1b[0m", piece_color, fg_to_bg(square->color), piece);
+    //wprintf(L"\x1b[%d;%dm%lc \x1b[0m", piece_color, fg_to_bg(square->color), piece);
+
+    wprintf(L"\x1b[38;5;%dm\x1b[48;5;%dm%lc \x1b[0m", piece_color, square->color, piece);
+    // wprintf(L"%dm%dm%lc \x1b[0m", piece_color, square->color, piece);
     return; 
 }
 

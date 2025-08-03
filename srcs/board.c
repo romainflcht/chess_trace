@@ -36,7 +36,7 @@ void init_board(CHESSBOARD_t* board)
 
         // Initialize each squre of the line with its color. 
         for (j = 0; j < CHESSBOARD_SIZE; j++)
-            init_square(row + j, NULL, (j % 2 == offset) ? WHITE : BLACK); 
+            init_square(row + j, NULL, (j % 2 == offset) ? BEIGE : GREEN); 
 
         // Save the line into the SQUARE_t pointer array and offset the color by
         // one to get the checkered effect. 
@@ -109,11 +109,18 @@ void print_chessboard(CHESSBOARD_t* board, uint8_t is_flipped)
         for (i = CHESSBOARD_SIZE - 1; i >= 0; i--)
         {
             for (j = CHESSBOARD_SIZE - 1; j >= 0; j--)
+            {
+                if (j == CHESSBOARD_SIZE - 1)
+                    wprintf(L"%d ", CHESSBOARD_SIZE - i); 
+
                 print_square(&(board->board[i][j]));
+            }
                 
             // Print a newline when printing a line is finished. 
             wprintf(L"\n"); 
         }
+
+        wprintf(L"  h g f e d c b a\n"); 
     }
 
     else
@@ -121,10 +128,17 @@ void print_chessboard(CHESSBOARD_t* board, uint8_t is_flipped)
         for (i = 0; i < CHESSBOARD_SIZE; i++)
         {
             for (j = 0; j < CHESSBOARD_SIZE; j++)
+            {
+                if (j == 0)
+                    wprintf(L"%d ", CHESSBOARD_SIZE - i); 
+
                 print_square(&(board->board[i][j]));
+            }
                 
             // Print a newline when printing a line is finished. 
             wprintf(L"\n"); 
         }
+
+        wprintf(L"  a b c d e f g h\n"); 
     }
 }

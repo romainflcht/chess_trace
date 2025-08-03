@@ -8,9 +8,11 @@
 
 typedef enum Color
 {
-    BLACK   = 30, 
-    WHITE   = 37, 
-    DEFAULT = 39, 
+    BLACK   = 232, 
+    WHITE   = 250, 
+    GREEN   = 107, 
+    BEIGE   = 231,
+    DEFAULT = 0, 
 }   COLOR_t; 
 
 
