@@ -7,9 +7,8 @@
  * with its color. 
  * 
  * @param board      pointer to the CHESSBOARD_t structure to initialize. 
- * @param is_flipped flag to know if we need to render the chessboard flipped. 
  */
-void init_board(CHESSBOARD_t* board, uint8_t is_flipped)
+void init_board(CHESSBOARD_t* board)
 { 
     SQUARE_t*   row; 
     uint8_t     offset;
@@ -45,24 +44,50 @@ void init_board(CHESSBOARD_t* board, uint8_t is_flipped)
         offset = !offset; 
     }
 
+    // Create and add chesspieces to the chessboard using X-macro. 
+    #define X(chessboard, row, col, piece_type, color) \
+        chessboard->board[row][col].piece = create_piece(piece_type, color); 
 
-    board->is_flipped = is_flipped; 
+        CREATE_PIECES
+    #undef X
+
     return; 
 }
 
 
 /**
  * @brief 
- * Free any CHESSBOARD_t variable.  
+ * Free any CHESSBOARD_t variable. 
  * 
  * @param board the chessboard to free. 
  */
 void free_board(CHESSBOARD_t* board)
 {
-    // TODO: free correcty the board in case of errors. 
-    if (!board)
+    uint8_t i; 
+    uint8_t j;
+
+    // Check if we got a valid address and if the board isn't already freed. 
+    if (!board || !board->board)
         return; 
-        
+
+    // Loop through each SQUARE_t to free PIECE_t structure. 
+    for (i = 0; i < CHESSBOARD_SIZE; i++)
+    {
+        for (j = 0; j < CHESSBOARD_SIZE; j++)
+        {
+            if (!board->board[i][j].piece)
+                continue;
+            
+            free(board->board[i][j].piece); 
+            
+        }
+
+        // Free the current row. 
+        free(board->board[i]); 
+    }
+
+    // Free the whole board once finished. 
+    free(board->board); 
     return; 
 }
 
@@ -71,16 +96,35 @@ void free_board(CHESSBOARD_t* board)
  * @brief 
  * Print the chessboard on the standard output. 
  * 
- * @param board the chessboard to print. 
+ * @param board      the chessboard to print. 
+ * @param is_flipped flag to print the chessboard flipped. 
  */
-void print_chessboard(CHESSBOARD_t* board)
+void print_chessboard(CHESSBOARD_t* board, uint8_t is_flipped)
 {
-    for (int i = 0; i < CHESSBOARD_SIZE; i++)
+    int8_t i; 
+    int8_t j;
+
+    if (is_flipped)
     {
-        for (int j = 0; j < CHESSBOARD_SIZE; j++)
-            print_square(&(board->board[i][j]));
-            
-        // Print a newline when printing a line is finished. 
-        wprintf(L"\n"); 
+        for (i = CHESSBOARD_SIZE - 1; i >= 0; i--)
+        {
+            for (j = CHESSBOARD_SIZE - 1; j >= 0; j--)
+                print_square(&(board->board[i][j]));
+                
+            // Print a newline when printing a line is finished. 
+            wprintf(L"\n"); 
+        }
+    }
+
+    else
+    {
+        for (i = 0; i < CHESSBOARD_SIZE; i++)
+        {
+            for (j = 0; j < CHESSBOARD_SIZE; j++)
+                print_square(&(board->board[i][j]));
+                
+            // Print a newline when printing a line is finished. 
+            wprintf(L"\n"); 
+        }
     }
 }

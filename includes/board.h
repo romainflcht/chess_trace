@@ -13,7 +13,6 @@
 // * _ STRUCTURES DEFINITION ___________________________________________________
 typedef struct Chessboard
 {
-    uint8_t is_flipped; 
     SQUARE_t** board; 
 }   CHESSBOARD_t; 
 
@@ -24,10 +23,9 @@ typedef struct Chessboard
  * Initialize memory space for the chessboard. Also initialize each SQUARE_t 
  * with its color. 
  * 
- * @param board      pointer to the CHESSBOARD_t structure to initialize. 
- * @param is_flipped flag to know if we need to render the chessboard flipped. 
+ * @param board pointer to the CHESSBOARD_t structure to initialize. 
  */
-void init_board(CHESSBOARD_t* board, uint8_t is_flipped); 
+void init_board(CHESSBOARD_t* board); 
 
 
 /**
@@ -43,7 +41,8 @@ void free_board(CHESSBOARD_t* board);
  * @brief 
  * Print the chessboard on the standard output. 
  * 
- * @param board the chessboard to print. 
+ * @param board      the chessboard to print. 
+ * @param is_flipped flag to print the chessboard flipped. 
  */
-void print_chessboard(CHESSBOARD_t* board); 
+void print_chessboard(CHESSBOARD_t* board, uint8_t is_flipped); 
 #endif 
